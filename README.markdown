@@ -33,7 +33,7 @@ Convert degrees -> decimal
 
                 
         console.log(point.getLonDec()); // 24.725044444444443
-        console.log(point.getLatDeg()); // 58.74554722222222
+        console.log(point.getLatDec()); // 58.74554722222222
         
     </script>
 
