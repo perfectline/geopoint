@@ -1,7 +1,7 @@
 Javascript GeoPoint Library
 =====================================================
 
-Simple Javascript library to convert latitude/longitude between decimal degrees and degrees,minutes and seconds.
+Javascript library to convert latitude/longitude between decimal degrees and degrees,minutes and seconds.
 
 This library expects latitude and longitude in EPSG:4326 (WGS84). To convert between different projections check out [Proj4js](http://proj4js.org//)
 
