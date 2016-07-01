@@ -124,7 +124,7 @@ GeoPoint.prototype = {
         pattern += "\\s*";
 
         // sec
-        pattern += "(\\d+\\.\\d+)";
+        pattern += "(\\d+(?:\\.\\d+)?)";
         pattern += this.CHAR_SEC;
 
         return value.match(new RegExp(pattern));
@@ -147,6 +147,3 @@ GeoPoint.prototype = {
     }
 
 };
-
-
-
