@@ -1,100 +1,81 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html>
 <head>
-
     <title>GeoPoint Tests</title>
-
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-
-    <link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen"/>
-
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
-    <script type="text/javascript" src="../geopoint.js"></script>
-
-    <script type="text/javascript">
-
-        $(document).ready(function() {
-
-
-            test("testDegrees", function() {
-                var point = new GeoPoint("24° 43' 30.16\"", "58° 44' 43.97\"");
-
-                equal(point.getLonDec(), 24.725044444444443);
-                equal(point.getLatDec(), 58.74554722222222);
-
-            });
-
-            test("testDegreesNaN", function() {
-
-                var lon = "foo";
-                var lat = "bar";
-
-                var point = new GeoPoint(lon, lat);
-
-                ok(isNaN(point.getLonDec()), "lonDec == NaN");
-                ok(isNaN(point.getLatDec()), "latDec == NaN");
-                ok(isNaN(point.getLonDeg()), "lonDeg == NaN");
-                ok(isNaN(point.getLatDeg()), "latDeg == NaN");
-
-            });
-
-            test("testDecimal", function() {
-
-                var point = new GeoPoint(24.72504500749274, 58.74554729994484);
-
-                equal(point.getLonDeg(), "24° 43' 30.16\"");
-                equal(point.getLatDeg(), "58° 44' 43.97\"");
-
-            });
-
-            test("testDecimalNaN", function() {
-
-                var lon = NaN;
-                var lat = NaN;
-
-                var point = new GeoPoint(lon, lat);
-
-                ok(isNaN(point.getLonDec()), "lonDec == NaN");
-                ok(isNaN(point.getLatDec()), "latDec == NaN");
-                ok(isNaN(point.getLonDeg()), "lonDeg == NaN");
-                ok(isNaN(point.getLatDeg()), "latDeg == NaN");
-
-            });
-
-            test("testLonBounds", function() {
-
-                ok(isNaN(new GeoPoint(181, 58.74554729994484).getLonDeg()), "lonDeg == Nan if &gt; 180");
-                ok(isNaN(new GeoPoint(-181, 58.74554729994484).getLonDeg()), "lonDeg == NaN if &lt; -180");
-
-            });
-
-            test("testLatBounds", function() {
-                ok(isNaN(new GeoPoint(24.72504500749274, 91).getLonDeg()), "latDeg == Nan if &gt; 90");
-                ok(isNaN(new GeoPoint(24.72504500749274, -91).getLonDeg()), "latDeg == NaN if &lt; -90");
-            });
-
-
-        });
-
-    </script>
-
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.0.0.css">
 </head>
 
 <body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.0.0.js"></script>
+    <script type="text/javascript" src="../geopoint.js"></script>
+    <script type="text/javascript">
 
-<h1 id="qunit-header">GeoPoint Tests</h1>
+        QUnit.test("testDegrees", function(assert) {
+            var point = new GeoPoint("24° 43' 30.16\"", "58° 44' 43.97\"");
 
-<h2 id="qunit-banner"></h2>
+            assert.equal(point.getLonDec(), 24.725044444444443);
+            assert.equal(point.getLatDec(), 58.74554722222222);
 
-<div id="qunit-testrunner-toolbar"></div>
+        });
 
-<h2 id="qunit-userAgent"></h2>
+        QUnit.test("testDegreesNaN", function(assert) {
 
-<ol id="qunit-tests"></ol>
+            var lon = "foo";
+            var lat = "bar";
 
-<div id="qunit-fixture"></div>
+            var point = new GeoPoint(lon, lat);
 
+            assert.ok(isNaN(point.getLonDec()), "lonDec == NaN");
+            assert.ok(isNaN(point.getLatDec()), "latDec == NaN");
+            assert.ok(isNaN(point.getLonDeg()), "lonDeg == NaN");
+            assert.ok(isNaN(point.getLatDeg()), "latDeg == NaN");
+
+        });
+
+        QUnit.test("testDecimal", function(assert) {
+
+            var point = new GeoPoint(24.72504500749274, 58.74554729994484);
+
+            assert.equal(point.getLonDeg(), "24° 43' 30.16\"");
+            assert.equal(point.getLatDeg(), "58° 44' 43.97\"");
+
+        });
+
+        QUnit.test("testDecimalNaN", function(assert) {
+
+            var lon = NaN;
+            var lat = NaN;
+
+            var point = new GeoPoint(lon, lat);
+
+            assert.ok(isNaN(point.getLonDec()), "lonDec == NaN");
+            assert.ok(isNaN(point.getLatDec()), "latDec == NaN");
+            assert.ok(isNaN(point.getLonDeg()), "lonDeg == NaN");
+            assert.ok(isNaN(point.getLatDeg()), "latDeg == NaN");
+
+        });
+
+        QUnit.test("testLonBounds", function(assert) {
+
+            assert.ok(isNaN(new GeoPoint(181, 58.74554729994484).getLonDeg()), "lonDeg == Nan if &gt; 180");
+            assert.ok(isNaN(new GeoPoint(-181, 58.74554729994484).getLonDeg()), "lonDeg == NaN if &lt; -180");
+
+        });
+
+        QUnit.test("testLatBounds", function(assert) {
+            assert.ok(isNaN(new GeoPoint(24.72504500749274, 91).getLonDeg()), "latDeg == Nan if &gt; 90");
+            assert.ok(isNaN(new GeoPoint(24.72504500749274, -91).getLonDeg()), "latDeg == NaN if &lt; -90");
+        });
+
+        QUnit.test("testParseWithNoDecimal", function(assert) {
+            var point1 = new GeoPoint('116° 23\' 27"', '39° 54\' 56"');
+            var point2 = new GeoPoint('116° 23\' 27.0"', '39° 54\' 56.0"');
+            assert.ok(point1.getLonDec() === point2.getLonDec() && point1.getLatDec() === point2.getLatDec(), "LonDec and LatDec corrects if there is no decimal to seconds");
+        });
+
+    </script>
 </body>
 </html>
