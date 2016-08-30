@@ -16,7 +16,7 @@ GeoPoint = function(lon, lat) {
                 this.lonDeg = lon;
             }
 
-            this.lonDec = this.deg2dec(lon, this.MAX_LON, ['N', 'S']);
+            this.lonDec = this.deg2dec(lon, this.MAX_LON, ['E', 'W']);
 
             break;
     }
@@ -36,7 +36,7 @@ GeoPoint = function(lon, lat) {
                 this.latDeg = lat;
             }
 
-            this.latDec = this.deg2dec(lat, this.MAX_LAT, ['E', 'W']);
+            this.latDec = this.deg2dec(lat, this.MAX_LAT, ['N', 'S']);
 
             break;
 

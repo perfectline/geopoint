@@ -14,7 +14,7 @@
     <script type="text/javascript">
 
         QUnit.test("testDegrees", function(assert) {
-            var point = new GeoPoint("24° 43' 30.16\" N", "58° 44' 43.97\" E");
+            var point = new GeoPoint("24° 43' 30.16\" E", "58° 44' 43.97\" N");
 
             assert.equal(point.getLonDec(), 24.725044444444443);
             assert.equal(point.getLatDec(), 58.74554722222222);
@@ -71,8 +71,8 @@
         });
 
         QUnit.test("testParseWithNoDecimal", function(assert) {
-            var point1 = new GeoPoint('116° 23\' 27" N', '39° 54\' 56" E');
-            var point2 = new GeoPoint('116° 23\' 27.0" N', '39° 54\' 56.0" E');
+            var point1 = new GeoPoint('116° 23\' 27" E', '39° 54\' 56" N');
+            var point2 = new GeoPoint('116° 23\' 27.0" E', '39° 54\' 56.0" N');
             assert.ok(point1.getLonDec() === point2.getLonDec() && point1.getLatDec() === point2.getLatDec(), "LonDec and LatDec corrects if there is no decimal to seconds");
         });
 
