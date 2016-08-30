@@ -16,7 +16,7 @@ GeoPoint = function(lon, lat) {
                 this.lonDeg = lon;
             }
 
-            this.lonDec = this.deg2dec(lon, this.MAX_LON, ['E', 'W']);
+            this.lonDec = this.deg2dec(lon, this.MAX_LON, ['N', 'S']);
 
             break;
     }
@@ -36,7 +36,7 @@ GeoPoint = function(lon, lat) {
                 this.latDeg = lat;
             }
 
-            this.latDec = this.deg2dec(lat, this.MAX_LAT, ['N', 'S']);
+            this.latDec = this.deg2dec(lat, this.MAX_LAT, ['E', 'W']);
 
             break;
 
@@ -93,7 +93,7 @@ GeoPoint.prototype = {
 
     },
 
-    deg2dec: function(value,direction) {
+    deg2dec: function(value,max,direction) {
 
         var matches = this.decode(value,direction);
 
@@ -104,7 +104,7 @@ GeoPoint.prototype = {
         var deg = parseFloat(matches[1]);
         var min = parseFloat(matches[2]);
         var sec = parseFloat(matches[3]);
-        var sig = direction.indexOf(matches[4]) ? 1 : -1;
+        var sig = direction.indexOf(matches[4]) ? -1 : 1;
 
         if (isNaN(deg) || isNaN(min) || isNaN(sec)) {
             return NaN;
