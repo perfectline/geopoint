@@ -5,18 +5,18 @@ GeoPoint = function(lon, lat) {
 
         case 'number':
 
-            this.lonDeg = this.dec2deg(lon, this.MAX_LON);
+            this.lonDeg = this.dec2deg(lon, this.MAX_LON,['E','W']);
             this.lonDec = lon;
 
             break;
 
         case 'string':
 
-            if (this.decode(lon)) {
+            if (this.decode(lon, ['E', 'W'])) {
                 this.lonDeg = lon;
             }
 
-            this.lonDec = this.deg2dec(lon, this.MAX_LON);
+            this.lonDec = this.deg2dec(lon, this.MAX_LON, ['E', 'W']);
 
             break;
     }
@@ -25,18 +25,18 @@ GeoPoint = function(lon, lat) {
 
         case 'number':
 
-            this.latDeg = this.dec2deg(lat, this.MAX_LAT);
+            this.latDeg = this.dec2deg(lat, this.MAX_LAT, ['N', 'S']);
             this.latDec = lat;
 
             break;
 
         case 'string':
 
-            if (this.decode(lat)) {
+            if (this.decode(lat, ['N', 'S'])) {
                 this.latDeg = lat;
             }
 
-            this.latDec = this.deg2dec(lat, this.MAX_LAT);
+            this.latDec = this.deg2dec(lat, this.MAX_LAT, ['N', 'S']);
 
             break;
 
@@ -61,9 +61,9 @@ GeoPoint.prototype = {
     lonDeg: NaN,
     latDeg: NaN,
 
-    dec2deg: function(value, max) {
+    dec2deg: function(value, max, direction) {
 
-        var sign = value < 0 ? -1 : 1;
+        var sign = direction[value < 0 ? 1 : 0];
 
         var abs = Math.abs(Math.round(value * 1000000));
 
@@ -72,7 +72,7 @@ GeoPoint.prototype = {
         }
 
         var dec = abs % 1000000 / 1000000;
-        var deg = Math.floor(abs / 1000000) * sign;
+        var deg = Math.floor(abs / 1000000);
         var min = Math.floor(dec * 60);
         var sec = (dec - min / 60) * 3600;
 
@@ -86,14 +86,16 @@ GeoPoint.prototype = {
         result += this.CHAR_SEP;
         result += sec.toFixed(2);
         result += this.CHAR_SEC;
+        result += this.CHAR_SEP;
+        result += sign;
 
         return result;
 
     },
 
-    deg2dec: function(value) {
+    deg2dec: function(value,max,direction) {
 
-        var matches = this.decode(value);
+        var matches = this.decode(value,direction);
 
         if (!matches) {
             return NaN;
@@ -102,15 +104,16 @@ GeoPoint.prototype = {
         var deg = parseFloat(matches[1]);
         var min = parseFloat(matches[2]);
         var sec = parseFloat(matches[3]);
+        var sig = direction.indexOf(matches[4]) ? -1 : 1;
 
         if (isNaN(deg) || isNaN(min) || isNaN(sec)) {
             return NaN;
         }
 
-        return deg + (min / 60.0) + (sec / 3600);
+        return sig*(deg + (min / 60.0) + (sec / 3600));
     },
 
-    decode: function(value) {
+    decode: function(value,direction) {
         var pattern = "";
 
         // deg
@@ -126,6 +129,10 @@ GeoPoint.prototype = {
         // sec
         pattern += "(\\d+(?:\\.\\d+)?)";
         pattern += this.CHAR_SEC;
+        pattern += "\\s*";
+
+        // dir
+        pattern += "(" + direction.join('|') + ")";
 
         return value.match(new RegExp(pattern));
     },
